@@ -10,5 +10,5 @@ public class PrevisaoTempoResponseModel {
     private String hora;
     private Integer temperatura;
     private String data;
-    private String city_name;
+    private String nomeCidade;
 }
