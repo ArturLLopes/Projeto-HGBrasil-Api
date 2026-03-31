@@ -4,6 +4,7 @@ import br.com.projeto.hgbrasil.api.connectors.HGBrasilConnector;
 import br.com.projeto.hgbrasil.api.models.PrevisaoTempoResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
@@ -17,8 +18,13 @@ public class PrevisaoTempoService {
     @Autowired
     HGBrasilConnector connector;
 
+    @Cacheable(
+            value = "previsaoTempoCidadeCache",
+            key = "#city"   )
+
     public PrevisaoTempoResponseModel fecthPrevisaoTempo(String city){
 
+        log.info("PrevisaoTempoService----------------------------------------------------------");
         log.info("Buscando a previsão do tempo para a cidade {}", city);
 
         var retornoApi = connector.fetchWeatherForCity(city);
@@ -33,6 +39,7 @@ public class PrevisaoTempoService {
                 .hora(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")))
                 .temperatura(retornoApi.getTemp())
                 .data(retornoApi.getDate())
+                .forecast(retornoApi.getForecast())
                 .build();
 
         return ret;
