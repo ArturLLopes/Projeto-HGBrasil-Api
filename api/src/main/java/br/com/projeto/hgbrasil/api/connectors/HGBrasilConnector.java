@@ -56,7 +56,7 @@ public class HGBrasilConnector {
                 .queryParam("array_limit", MAX_ARRAY_RESULTS)
                 .queryParam("fields", API_FIELDS)
                // .queryParam("woeid", "455825"); //valor woeid pois city esta bugando
-                .queryParam("city_name", city); //valor woeid pois city esta bugando
+                .queryParam("city_name", city);
         return uriBuilder;
     }
 
