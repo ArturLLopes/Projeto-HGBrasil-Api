@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class PrevisaoTempoResponseModel {
 
-    private Integer hora;
+    private String hora;
     private Integer temperatura;
     private String data;
-    private String nomeCidade;
+    private String city_name;
 }
