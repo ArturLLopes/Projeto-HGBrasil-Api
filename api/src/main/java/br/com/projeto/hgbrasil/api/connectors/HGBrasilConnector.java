@@ -1,5 +1,6 @@
 package br.com.projeto.hgbrasil.api.connectors;
 
+import br.com.projeto.hgbrasil.api.config.HGBrasilProperties;
 import br.com.projeto.hgbrasil.api.models.HGBrasilResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,18 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class HGBrasilConnector {
+    @Autowired
+    private HGBrasilProperties properties;
 
-    private static final String SCHEME = "https";
-    // private static final String HOST = "api.hgbrasil.com";
-    private static final String HOST = "34.102.203.11.nip.io";
-    //private static final String URI = "weather";
-    private static final String URI = "previsoes";
-    //private static final String API_KEY = "21532a77";
-    private static final String API_FIELDS =
-            "only_results,temp,city_name,time,forecast,max,min,date";
-    private static final int MAX_ARRAY_RESULTS = 3;
+//    private static final String SCHEME = "https";
+//    // private static final String HOST = "api.hgbrasil.com";
+//    private static final String HOST = "34.102.203.11.nip.io";
+//    //private static final String URI = "weather";
+//    private static final String URI = "previsoes";
+//    //private static final String API_KEY = "21532a77";
+//    private static final String API_FIELDS =
+//            "only_results,temp,city_name,time,forecast,max,min,date";
+//    private static final int MAX_ARRAY_RESULTS = 3;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -48,16 +51,15 @@ public class HGBrasilConnector {
     }
 
     private UriComponentsBuilder createUriBuilder(String city) {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance()
-                .scheme(SCHEME)
-                .host(HOST)
-                .pathSegment(URI)
+        return UriComponentsBuilder.newInstance()
+                .scheme(properties.getScheme())
+                .host(properties.getHost())
+                .pathSegment(properties.getHost())
                 //.queryParam("key", API_KEY)
-                .queryParam("array_limit", MAX_ARRAY_RESULTS)
-                .queryParam("fields", API_FIELDS)
+                .queryParam("array_limit", properties.getArrayLimit())
+                .queryParam("fields", properties.getFields())
                // .queryParam("woeid", "455825"); //valor woeid pois city esta bugando
                 .queryParam("city_name", city);
-        return uriBuilder;
     }
 
     private HttpEntity<?> createHeaders() {
